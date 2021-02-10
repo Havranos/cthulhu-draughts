@@ -1,0 +1,64 @@
+:root {
+    background-color: blue;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+.up_bar{
+    width: 100%;
+    /* height: 5vh; */
+    min-height: 5vh;
+    background-color: green;
+    display: block;
+    /* margin-bottom: 0; */
+    /* overflow: hidden; */
+    float: right;
+    border: 1px solid black;
+    /* display: inline; */
+}
+
+.up_bar ul li{
+    display: inline;
+    float: left;
+    margin: auto 5px;
+    padding: 3px;
+    border: 1px solid black;  
+    border-radius: 10%;
+    background-color: chartreuse;
+    /* min-height: fit-content; */
+    
+}
+
+
+
+.main_about{
+    box-sizing: border-box;
+    float: left;
+    width: 100%;
+    height: 95vh;
+    /* border: 10px solid black; */
+    position: relative;
+    background-image: url(../flood.jpg);
+    background-position: center;
+    background-size: cover;
+    object-position: center;
+    /* z-index: 20; */
+}
+
+.main_score{
+    box-sizing: border-box;
+    float: left;
+    width: 100%;
+    height: 95vh;
+    /* border: 10px solid black; */
+    position: relative;
+    background-image: url(../andy-walsh-cthulhu1-ship-port-andywalshart-1800px2.jpg);
+    background-position: center;
+    background-size: cover;
+    /* z-index: 20; */
+}

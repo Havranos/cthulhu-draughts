@@ -1,0 +1,154 @@
+.main_area{
+    box-sizing: border-box;
+    float: left;
+    width: 100%;
+    height: 95vh;
+    /* border: 10px solid black; */
+    position: relative;
+    /* z-index: 20; */
+}
+
+
+.left{
+    /* padding: 1px; */
+    box-sizing: border-box;
+    background-color: rgb(23, 82, 43);
+    float: left;
+    width: 20%;
+    height: 100%;
+    position: relative;
+    display: block;
+    border-right: 5px solid rgb(87, 76, 18);
+    /* margin-top: 0; */
+    /* border: 1px solid black; */
+    /* left: 0vw;
+    top: 0vh; */
+    
+}
+
+.right{
+    /* padding: 1px; */
+    box-sizing: border-box;
+    background-color: rgb(23, 82, 43);
+    float: left;
+    width: 20%;
+    height: 100%;
+    position: relative;
+    display: block;
+    border-left: 5px solid rgb(87, 76, 18);
+
+    /* margin: 0 0; */
+    /* border: 1px solid black; */
+    /* left: 80vw;
+    top: 0vh; */
+}
+
+.center{
+    /* padding: 1px; */
+    box-sizing: border-box;
+    background-image: url(../cthulhu_and_the_ninth_wave_by_fantasio_d9nw88r-fullview.jpg);
+    background-position: center;
+    background-size: cover;
+    float: left;
+    height: 100%;
+    width: 60%;
+    /* margin-top: 0; */
+    /* border: 5px solid black; */
+    color: blanchedalmond;
+    position: relative;
+    /* left: 20vw;
+    top: 0vh; */
+
+}
+.down_bar{
+    position: relative;
+    top: 90%
+
+}
+
+.board{
+    width: 48vw;
+    height: 48vw;
+    border: 3px solid brown;
+    margin: auto;
+    position: relative;
+    opacity: 0.8;
+    
+}
+.noPiece{
+    width: calc(100%/9);
+    height: calc(100%/9);
+    border: 1px solid black;
+    background-color: burlywood;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.noPiece_odd{
+    width: calc(100%/9);
+    height: calc(100%/9);
+    border: 1px solid black;
+    background-color: brown;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+td > p{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    border-radius: 50%;
+    color: black;
+}
+
+td > p:hover{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    border-radius: 50%;
+    background-color:rgba(0,0,0,0.1);
+    color: black;
+}
+
+.white_pawn {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    border: 3px solid black;
+    background-color: white;
+    border-radius: 50%;
+    color: black;
+}
+
+.white_pawn:hover {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    border: 3px solid black;
+    background-color: white;
+    border-radius: 50%;
+    color: black;
+}
+
+.black_pawn {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    border: 3px solid white;
+    background-color: black;
+    border-radius: 50%;
+    color: black;
+}
+
+.black_pawn:hover {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    border: 3px solid white;
+    background-color: black;
+    border-radius: 50%;
+    color: black;
+}
+
