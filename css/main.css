@@ -128,6 +128,7 @@ td > p:hover{
     margin: auto;
     border: 3px solid black;
     background-color: white;
+    opacity: 0.8;
     border-radius: 50%;
     color: black;
 }
@@ -148,7 +149,26 @@ td > p:hover{
     margin: auto;
     border: 3px solid white;
     background-color: black;
+    opacity: 0.8;
     border-radius: 50%;
     color: black;
+}
+
+.move{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    border-radius: 50%;
+    background-color:rgba(72, 230, 41, 0.5);
+
+}
+
+.kill_move{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    border-radius: 50%;
+    background-color:rgba(255, 18, 1, 0.3);
+
 }
 
