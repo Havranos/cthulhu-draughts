@@ -6,7 +6,9 @@
 
 const container = document.querySelector("table.board");
 const boardElementList = container.querySelectorAll("td > p");
-var figures = ["black_pawn", "white_pawn"];
+
+var figures = ["black_pawn", "white_pawn", "black_king", "white_king"];
+
 var allow_moves = [];
 var allow_kill_moves = [];
 var allow_pawns = [];
@@ -17,15 +19,13 @@ console.log("start");
 // standard beginning board setting in droughts
 var board = [0, 1, 0, 1, 0, 1, 0, 1, 
     1, 0, 1, 0, 1, 0, 1, 0, 
-    0, 1, 0, 1, 0, 1, 0, 1, 
+    0, 1, 0, 1, 0, 2, 0, 1, 
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
-    -1, 0, -1, 0, -1, 0, -1, 0, 
-    0, -1, 0, -1, 0, -1, 0, -1, 
-    -1, 0, -1, 0, -1, 0, -1, 0];
+    -1, 0, -1, 0, -2, 0, -1, 0, 
+    0, -1, 0, -1, 0, 1, 0, -1, 
+    -1, 0, -1, 0, 0, 0, -1, 0];
 
-
-console.log(board);
 
 function trans(str)
 {
@@ -63,6 +63,14 @@ function setElement(n)
     {
         boardElementList[n].classList.add(figures[1]);   
     }
+    if(board[n] === -2)
+    {
+        boardElementList[n].classList.add(figures[2]);   
+    }
+    if(board[n] === 2)
+    {
+        boardElementList[n].classList.add(figures[3]);   
+    }
 }
 
 
@@ -74,9 +82,17 @@ function checkAvailableMoves(boardLocation)
     {
         whitePawnMoves(boardLocation)
     }
+    if(board[boardLocation]===2 && currPlayer === 0)
+    {
+        whiteKingMoves(boardLocation)
+    }
     if(board[boardLocation]===-1 && currPlayer === 1)
     {
         blackPawnMoves(boardLocation)
+    }
+    if(board[boardLocation]===-2 && currPlayer === 1)
+    {
+        blackKingMoves(boardLocation)
     }
 }
 
@@ -86,9 +102,17 @@ function checkAvailableKillMoves(boardLocation)
     {
         whitePawnKillMoves(boardLocation)
     }
+    if(board[boardLocation]===2 && currPlayer === 0)
+    {
+        whiteKingKillMoves(boardLocation)
+    }
     if(board[boardLocation]===-1 && currPlayer === 1)
     {
         blackPawnKillMoves(boardLocation)
+    }
+    if(board[boardLocation]===-2 && currPlayer === 1)
+    {
+        blackKingKillMoves(boardLocation)
     }
 }
 
@@ -145,7 +169,7 @@ function userClickFunction(userChoice)
 {
 
     boardNumber = trans(userChoice);
-    // console.log(allow_moves.length);
+    console.log(boardNumber);
     // console.log(allow_pawns.length);
     if(allow_pawns.length!==0)
     {
@@ -183,6 +207,7 @@ function userClickFunction(userChoice)
         setElement(boardNumber);
         removeAvailableMoves();
         removeAvailableKillMoves();
+        pawnToKing(boardNumber)
         playerChange()
 
 
@@ -199,6 +224,7 @@ function userClickFunction(userChoice)
         checkAvailableKillMoves(boardNumber);
         if(allow_kill_moves.length == 0)
         {
+            pawnToKing(boardNumber)
             playerChange()
         }
         drewAvailableKillMoves();
@@ -286,6 +312,29 @@ function playerChange()
     }
     // console.log(allow_pawns)
 
+}
+
+function pawnToKing(currPawnPosition)
+{
+    console.log("PawnToKing")
+    var pawnPos = nToXY(currPawnPosition);
+    console.log(pawnPos)
+    if(currPlayer === 0)
+    {
+        if(pawnPos[1] === 7)
+        {
+            board[currPawnPosition] = 2;
+            setElement(currPawnPosition);
+        }
+    }
+    if(currPlayer === 1)
+    {
+        if(pawnPos[1] === 0)
+        {
+            board[currPawnPosition] = -2;
+            setElement(currPawnPosition);
+        }
+    }
 }
 
 
