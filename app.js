@@ -9,9 +9,11 @@ const boardElementList = container.querySelectorAll("td > p");
 var figures = ["black_pawn", "white_pawn"];
 var allow_moves = [];
 var allow_kill_moves = [];
+var allow_pawns = [];
 var ifKill = false;
 var currPawnPosition = 0;
-
+var currPlayer = 0;
+console.log("start");
 // standard beginning board setting in droughts
 var board = [0, 1, 0, 1, 0, 1, 0, 1, 
     1, 0, 1, 0, 1, 0, 1, 0, 
@@ -23,6 +25,7 @@ var board = [0, 1, 0, 1, 0, 1, 0, 1,
     -1, 0, -1, 0, -1, 0, -1, 0];
 
 
+console.log(board);
 
 function trans(str)
 {
@@ -32,30 +35,18 @@ function trans(str)
     return Math.abs(str[1] - 8)* 8 + translate[str[0]];
 }
 
-
-
-
-
-// console.log("outside start");
-// console.log( boardElementList.length);
-for (let i = 0; i < boardElementList.length; i++) 
+function nToXY(n)
 {
-    // console.log(i)
-    // console.log(boardElementList[i].id)
-    boardElementList[i].addEventListener('click', function(e) 
-    {
-        // console.log(e.target.id);
-        userClickFunction(e.target.id)
-
-    })
-    // console.log("add");
-}
-for(let i = 0; i < boardElementList.length; i++)
-{
-    setElement(i);
+    x = n%8;
+    y = (n-x)/8;
+    return [x,y];
 }
 
-
+function XYTon(x, y)
+{
+    n = y*8 + x;
+    return n;
+}
 
 
 function setElement(n)
@@ -74,15 +65,41 @@ function setElement(n)
     }
 }
 
-function checkAvaibleMoves(boardLocation)
+
+// Main function to adding more figures.
+
+function checkAvailableMoves(boardLocation)
 {
-    if(board[boardLocation]===1)
+    if(board[boardLocation]===1 && currPlayer === 0)
     {
-        whitePawnMoves(boardLocation, ifKill)
+        whitePawnMoves(boardLocation)
+    }
+    if(board[boardLocation]===-1 && currPlayer === 1)
+    {
+        blackPawnMoves(boardLocation)
     }
 }
+
+function checkAvailableKillMoves(boardLocation)
+{
+    if(board[boardLocation]===1 && currPlayer === 0)
+    {
+        whitePawnKillMoves(boardLocation)
+    }
+    if(board[boardLocation]===-1 && currPlayer === 1)
+    {
+        blackPawnKillMoves(boardLocation)
+    }
+}
+
+
+
+
+
+// Move drawing section
+
 // we assume that all moves marks are gone from board
-function drewAvaibleMoves()
+function drewAvailableMoves()
 {
     for( let i = 0; i < allow_moves.length; i++)
     {
@@ -90,17 +107,17 @@ function drewAvaibleMoves()
     }
 }
 
-function removeAvaibleMoves()
+function removeAvailableMoves()
 {
-    for( let i = 0; i < allow_moves.length; i++)
+    for( let i = 0; i < boardElementList.length; i++)
     {
 
-        boardElementList[allow_moves[i]].classList.remove("move")
+        boardElementList[i].classList.remove("move");
     }
     allow_moves.length = 0;
 }
 
-function drewAvaibleKillMoves()
+function drewAvailableKillMoves()
 {
     for( let i = 0; i < allow_kill_moves.length; i++)
     {
@@ -108,66 +125,55 @@ function drewAvaibleKillMoves()
     }
 }
 
-function removeAvaibleKillMoves()
+function removeAvailableKillMoves()
 {
-    for( let i = 0; i < allow_kill_moves.length; i++)
+    for( let i = 0; i < boardElementList.length; i++)
     {
 
-        boardElementList[allow_kill_moves[i]].classList.remove("kill_move")
+        boardElementList[i].classList.remove("kill_move");
     }
     allow_kill_moves.length = 0;
 }
 
-// list of move functions for different figures
-function whitePawnMoves(currPawnLocation, ifKill)
-{
-    if(ifKill===false)
-    {
-        if (board[currPawnLocation+9] === 0)
-        {
-            allow_moves.push(currPawnLocation+9);
-        }
-        if (board[currPawnLocation+7] === 0)
-        {
-            allow_moves.push(currPawnLocation+7);
-        }
-    }
-    if (board[currPawnLocation+9] === -1)
-    {
-        if(board[currPawnLocation+18] === 0)
-        {
-            allow_kill_moves.push(currPawnLocation+18);
-        }
-    }
-    if (board[currPawnLocation+7] === -1)
-    {
-        if(board[currPawnLocation+14] === 0)
-        {
-            allow_kill_moves.push(currPawnLocation+14);
-        }
-    }
-}
+// End of move drawing section
 
 
+
+// Main function. On click concept.
 
 function userClickFunction(userChoice)
 {
-    // console.log(userChoice[0]);
-    // console.log(userChoice[1]);
+
     boardNumber = trans(userChoice);
-    console.log(allow_moves.length);
-    if(allow_moves.length == 0 && allow_kill_moves.length ==0)
+    // console.log(allow_moves.length);
+    // console.log(allow_pawns.length);
+    if(allow_pawns.length!==0)
+    {
+        if(allow_pawns.includes(boardNumber))
+        {
+            //console.log(allow_kill_moves)
+            removeAvailableMoves();
+            removeAvailableKillMoves();
+            checkAvailableKillMoves(boardNumber);
+            drewAvailableKillMoves();
+            //console.log(allow_kill_moves)
+            currPawnPosition = boardNumber;
+            allow_pawns.length = 0;
+        }
+
+    }
+    else if(allow_moves.length == 0 && allow_kill_moves.length ==0)
     {
 
-        checkAvaibleMoves(boardNumber);
-        drewAvaibleMoves();
-        drewAvaibleKillMoves();
+        checkAvailableMoves(boardNumber);
+        checkAvailableKillMoves(boardNumber);
+        drewAvailableMoves();
+        drewAvailableKillMoves();
         currPawnPosition = boardNumber;
 
-        console.log(allow_moves)
-        console.log(allow_kill_moves)
-        console.log(boardNumber);
-        ifKill = false;
+        // console.log(allow_moves)
+        // console.log(allow_kill_moves)
+        // console.log(boardNumber);
     }
     else if(allow_moves.includes(boardNumber))
     {
@@ -175,9 +181,10 @@ function userClickFunction(userChoice)
         board[currPawnPosition] = 0;
         setElement(currPawnPosition);
         setElement(boardNumber);
-        removeAvaibleMoves();
-        removeAvaibleKillMoves();
-        ifKill = false;
+        removeAvailableMoves();
+        removeAvailableKillMoves();
+        playerChange()
+
 
     }
     else if(allow_kill_moves.includes(boardNumber))
@@ -185,18 +192,118 @@ function userClickFunction(userChoice)
         board[boardNumber] = board[currPawnPosition]
         board[currPawnPosition] = 0;
         setElement(currPawnPosition);
+        killFunction(currPawnPosition, boardNumber);
         setElement(boardNumber);
-        removeAvaibleMoves();
-        removeAvaibleKillMoves();
-        ifKill = true;
+        removeAvailableMoves();
+        removeAvailableKillMoves();
+        checkAvailableKillMoves(boardNumber);
+        if(allow_kill_moves.length == 0)
+        {
+            playerChange()
+        }
+        drewAvailableKillMoves();
+        currPawnPosition = boardNumber;
 
     }
     else {
         console.log("else");
-        ifKill = false;
-        removeAvaibleMoves();
-        removeAvaibleKillMoves();
+        removeAvailableMoves();
+        // removeAvailableKillMoves();
     }
 
 
 }
+
+function killFunction(currPawnPosition, boardNumber)
+{
+    var begPos = nToXY(currPawnPosition);
+    var endPos = nToXY(boardNumber);
+    if (endPos[0]-begPos[0] === endPos[1]-begPos[1])
+    {
+        if (endPos[0]> begPos[0])
+        {
+            for( let i = 1;i < endPos[0] - begPos[0]; i++)
+            {
+                n = XYTon(begPos[0] + i, begPos[1] + i )
+                board[n] = 0;
+                setElement(n);
+
+            }
+        }
+        else
+        {
+            for( let i = 1;i < begPos[0] - endPos[0]; i++)
+            {
+                n = XYTon(endPos[0] + i, endPos[1] + i )
+                board[n] = 0;
+                setElement(n);
+
+            }
+        }
+    }
+    if (endPos[0]-begPos[0] === begPos[1] - endPos[1])
+    {
+        if (endPos[0]> begPos[0])
+        {
+            for( let i = 1;i < endPos[0] - begPos[0]; i++)
+            {
+                n = XYTon(begPos[0] + i, begPos[1] - i )
+                board[n] = 0;
+                setElement(n);
+
+            }
+        }
+        else
+        {
+            for( let i = 1;i < begPos[0] - endPos[0]; i++)
+            {
+                n = XYTon(endPos[0] + i, endPos[1] - i )
+                board[n] = 0;
+                setElement(n);
+
+            }
+        }
+    }
+
+}
+
+function playerChange()
+{
+    //currPlayer is global variable
+    console.log("Player change")
+    currPlayer = (currPlayer + 1)%2;
+    for(let i = 0; i < board.length; i++)
+    {
+        checkAvailableKillMoves(i);
+        // console.log(allow_kill_moves)
+        if(allow_kill_moves.length !==0)
+        {
+            allow_pawns.push(i);
+            drewAvailableKillMoves()
+            allow_kill_moves.length = 0;
+
+        }
+    }
+    // console.log(allow_pawns)
+
+}
+
+
+// Begining procedure
+
+for (let i = 0; i < boardElementList.length; i++) 
+{
+
+    boardElementList[i].addEventListener('click', function(e) 
+    {
+
+        userClickFunction(e.target.id)
+
+    })
+}
+for(let i = 0; i < boardElementList.length; i++)
+{
+    setElement(i);
+}
+console.log("nToXY: ",nToXY(15));
+// End of begining procedure
